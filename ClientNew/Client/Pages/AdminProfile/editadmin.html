@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Profile</title>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <style type="text/css">
+
+        .full-width{
+    float:left;width:100%;margin-top:30px;min-height:100px;position:relative;
+}
+.form-style-fake{position:absolute;top:0px;}
+.form-style-base{position:absolute;top:0px;z-index: 999;opacity: 0;}
+.imgCircle{border-radius: 50%;
+height: 38%;
+width:38%; 
+}
+.form-control{padding: 10px 50px;}
+.form-input{height:50px;border-radius: 0px;margin-top: 20px;}
+.Profile-input-file{
+    height:180px;width:180px;left:33%;
+    position: absolute;
+    top: 0px;
+    z-index: 999;
+    opacity: 0 !important;
+}
+.mg-auto{
+    margin:0 auto;max-width: 200px;overflow: hidden;
+}
+.fake-styled-btn{
+    background: #006cad;
+    padding: 10px;
+    color: #fff;
+}
+#main-input{width:250px;}
+.input-place{
+    position: absolute;top:35px;left: 20px;font-size:23px;color:gray;}
+.margin{margin-top:10px;margin-bottom:10px;}
+.truncate {
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.bg-form{
+    float:left;width:100%;
+    position:relative;
+   
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-top: 0px;
+}
+.bg-transparent{
+    background: rgba(0,0,0,0.5);float: left;
+    width: 100%;margin-top: 0px;
+}
+.container{
+    background: url("admin.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.custom-form{float: left;width:100%;border-radius: 20px;box-shadow: 0 0 16px #fff;overflow: hidden;
+background: rgba(255,255,255,0.6);
+}
+.img-section{
+    float: left;width: 100%;padding-top: 15px;padding-bottom: 15px;background: rgba(0,0,0,0.7);position: relative;
+}
+.img-section h4{color:#fff;}
+#PicUpload{
+    color: #ffffff;
+    width: 180px;
+    height: 180px;
+    background: rgba(255,255,255,0.4);
+    padding: 100px;
+    position: absolute;
+    left: 30.5%;
+    border-radius: 50%;
+    display: none;
+    top:15px;
+}
+.camera{
+    font-size: 50px;
+    color: #333;
+}
+.custom-btn{
+    margin-top: 15px;
+    border-radius: 0px;
+    padding: 10px 60px;
+    margin-bottom: 15px;
+}
+#checker{
+    opacity: 0;
+    position: absolute;
+    top: 0px;
+    cursor: pointer;
+}
+.color{
+    color:#fff;
+}
+
+/*====== style for placeholder ========*/
+
+.form-control::-webkit-input-placeholder {
+    color:lightgray;
+    font-size:18px;
+}
+.form-control:-moz-placeholder {
+    color:lightgray;
+    font-size:18px;
+}
+.form-control::-moz-placeholder {
+    color:lightgray;
+    font-size:18px;
+}
+.form-control:-ms-input-placeholder {
+    color:lightgray;
+    font-size:18px;
+}
+     .caret {
+            margin-left: 4px;
+        }
+        
+        .fa-4x {
+            font-size: 36px;
+            margin: 9px 3px;
+        }
+        
+        .wrap {
+            position: relative;
+        }
+        
+        .wrap .nav-bar .navbar-brand {
+            margin-top: 15px;
+        }
+        
+        .wrap .nav-bar .navbar-form {
+            margin-top: 25px;
+        }
+        
+        .wrap .nav-bar .nav {
+            float: right !important;
+        }
+        
+        .wrap .nav-bar .nav .dropdown span.fa,
+        .wrap .nav-bar .nav .dropdown span.caret {
+            margin-right: 10px;
+        }
+        
+        .wrap .nav-bar .nav .dropdown-menu {
+            background: #222;
+            left: auto;
+            width: 200px;
+            right: 0;
+        }
+        
+        .wrap #side-menu {
+            position: absolute;
+            z-index: -1;
+            background: #404040;
+            width: 22em;
+            padding-top: 40px;
+            padding-right: 20px;
+            padding-left: 10px;
+            float: left;
+            display: block;
+            left: 0;
+            height: 900px;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            left: -85px;
+        }
+        /* admin profile css*/
+        
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            margin: 0;
+            padding: 0;
+            line-height: .9;
+            font-weight: 700;
+            color: #333;
+        }
+        
+        .profile-block {
+            margin: 30px auto;
+            position: relative;
+            overflow: hidden;
+            max-width: 350px;
+        }
+        
+        .profile-block .user-heading {
+            background: #2F4F4F none repeat scroll 0 0;
+            border-radius: 4px 4px 0 0;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .profile-block .user-heading a img {
+            border-radius: 50%;
+            margin: auto auto 10px;
+            display: block;
+            height: 180px;
+            width: 180px;
+            border: 10px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .profile-block .user-heading h1 {
+            color: #fff;
+            font-size: 20px;
+            font-weight: 300;
+            line-height: 22px;
+            margin-bottom: 5px;
+            margin-top: 5px;
+        }
+        
+        .profile-block .user-heading p {
+            color: #fff;
+            font-size: 12px;
+            margin-bottom: 0;
+            text-align: center;
+        }
+        
+        .profile-block ul {
+            padding: 0;
+            margin: 0;
+        }
+        
+        .profile-block ul > li {
+            border-bottom: 1px solid #ddd;
+            line-height: 30px;
+            margin-top: 0;
+        }
+        
+        .profile-block .nav > li > a {
+            background: #e7e7e7;
+            border-radius: 0;
+            color: #000;
+            display: block;
+            font-size: 14px;
+            padding: 6px 18px;
+            position: relative;
+            text-align: left;
+            text-decoration: none;
+        }
+        
+        .profile-block ul > li > a > i {
+            color: #000;
+            font-size: 16px;
+            padding-right: 10px;
+        }
+        
+        .profile-block ul > li > a:hover,
+        .profile-block ul > li > a:focus,
+        .profile-block ul li.active a {
+            background: #fff !important;
+            border-radius: 0;
+            color: #000 !important;
+        }
+        /*sidebar css */
+        
+        body,
+        html {
+            height: 100%;
+        }
+        /* remove outer padding */
+        
+        .main .row {
+            padding: 0px;
+            margin: 0px;
+        }
+        
+        nav.sidebar {
+            position: fixed;
+        }
+        /*Remove rounded coners*/
+        
+        nav.sidebar.navbar {
+            border-radius: 0px;
+        }
+        
+        nav.sidebar,
+        .main {
+            -webkit-transition: margin 200ms ease-out;
+            -moz-transition: margin 200ms ease-out;
+            -o-transition: margin 200ms ease-out;
+            transition: margin 200ms ease-out;
+        }
+        /* Add gap to nav and right windows.*/
+        
+        .main {
+            padding: 10px 10px 0 10px;
+        }
+        /* .....NavBar: Icon only with coloring/layout.....*/
+        /*small/medium side display*/
+        
+        @media (min-width: 768px) {
+            /*Allow main to be next to Nav*/
+            .main {
+                position: absolute;
+                width: calc(100% - 40px);
+                /*keeps 100% minus nav size*/
+                margin-left: 40px;
+                float: right;
+            }
+            /*lets nav bar to be showed on mouseover*/
+            nav.sidebar:hover + .main {
+                margin-left: 200px;
+            }
+            /*Center Brand*/
+            nav.sidebar.navbar.sidebar>.container .navbar-brand,
+            .navbar>.container-fluid .navbar-brand {
+                margin-left: 0px;
+            }
+            /*Center Brand*/
+            nav.sidebar .navbar-brand,
+            nav.sidebar .navbar-header {
+                text-align: center;
+                width: 100%;
+                margin-left: 0px;
+            }
+            /*Center Icons*/
+            nav.sidebar a {
+                padding-right: 13px;
+            }
+            /*adds border top to first nav box */
+            nav.sidebar .navbar-nav > li:first-child {
+                border-top: 1px #e5e5e5 solid;
+            }
+            /*adds border to bottom nav boxes*/
+            nav.sidebar .navbar-nav > li {
+                border-bottom: 1px #e5e5e5 solid;
+            }
+            /* Colors/style dropdown box*/
+            nav.sidebar .navbar-nav .open .dropdown-menu {
+                position: static;
+                float: none;
+                width: auto;
+                margin-top: 0;
+                background-color: transparent;
+                border: 0;
+                -webkit-box-shadow: none;
+                box-shadow: none;
+            }
+            /*allows nav box to use 100% width*/
+            nav.sidebar .navbar-collapse,
+            nav.sidebar .container-fluid {
+                padding: 0 0px 0 0px;
+            }
+            /*colors dropdown box text */
+            .navbar-inverse .navbar-nav .open .dropdown-menu>li>a {
+                color: #777;
+            }
+            /*gives sidebar width/height*/
+            nav.sidebar {
+                width: 200px;
+                height: 100%;
+                margin-left: -160px;
+                float: left;
+                z-index: 8000;
+                margin-bottom: 0px;
+            }
+            /*give sidebar 100% width;*/
+            nav.sidebar li {
+                width: 100%;
+            }
+            /* Move nav to full on mouse over*/
+            nav.sidebar:hover {
+                margin-left: 0px;
+            }
+            /*for hiden things when navbar hidden*/
+            .forAnimate {
+                opacity: 0;
+            }
+        }
+        /* .....NavBar: Fully showing nav bar..... */
+        
+        @media (min-width: 1330px) {
+            /*Allow main to be next to Nav*/
+            .main {
+                width: calc(100% - 200px);
+                /*keeps 100% minus nav size*/
+                margin-left: 200px;
+            }
+            /*Show all nav*/
+            nav.sidebar {
+                margin-left: 0px;
+                float: left;
+            }
+            /*Show hidden items on nav*/
+            nav.sidebar .forAnimate {
+                opacity: 1;
+            }
+        }
+        
+        nav.sidebar .navbar-nav .open .dropdown-menu>li>a:hover,
+        nav.sidebar .navbar-nav .open .dropdown-menu>li>a:focus {
+            color: #CCC;
+            background-color: transparent;
+        }
+        
+        nav:hover .forAnimate {
+            opacity: 1;
+        }
+        
+        section {
+            padding-left: 15px;
+        }
+        
+        .container-fluid {
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        
+        .container1 {
+            margin-left: 15%;
+            1
+        }
+        
+        body {
+            padding-top: 70px;
+            background-color: #f5f5f5 !important;
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #333;
+            background-color: #fff;
+        }
+        
+        h5 {
+            font-size: 15px;
+            letter-spacing: 1px;
+            color: #555;
+        }
+        
+        h4 {
+            font-size: 25px;
+            color: #D1F2EB;
+            text-align: center;
+        }
+        
+        #img_pin {
+            top: 0px;
+            left: 80%;
+            z-index: 1;
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            display: inline-block;
+        }
+        
+        .navbar-brand {
+            float: left;
+            height: 55px;
+            padding: 15px 15px;
+            font-size: 25px;
+            line-height: 20px;
+        }
+        
+        .navbar-inverse {
+            box-shadow: 7px 6px 4px rgba(0, 0, 0, .5);
+            background-color: #080808;
+            border-color: #080808;
+        }
+        
+        .navbar {
+            height: 70px;
+            padding: 5px;
+            border-radius: 0px;
+        }
+        
+        .navbar-form .input-group {
+            display: inline-table;
+            width: 400%;
+            vertical-align: middle;
+        }
+        
+        .navbar-brand {
+            text-shadow: 2px 2px #777;
+            float: left;
+            color: white !important;
+            font-family: fantasy;
+            letter-spacing: 3px;
+            padding: 15px 15px;
+            font-size: 35px;
+            line-height: 25px;
+        }
+        
+        .modal-content {
+            background-color: rgb(123, 123, 123);
+            ;
+        }
+        
+        .modal-body {
+            background: #D1F2EB;
+            position: relative;
+            padding: 32px;
+        }
+        
+        .modal-header {
+            background-color: rgba(0, 0, 0, .5);
+            padding: 15px;
+        }
+        
+        .modal-footer {
+            border-top: 1px solid #080808;
+            padding: 15px;
+        }
+        
+        .close {
+            float: right;
+            font-size: 45px;
+            font-weight: bolder;
+            /* font-weight: 700; */
+            line-height: 1;
+            color: white;
+            text-shadow: 3px 3px 0 #080808;
+            opacity: 1;
+        }
+        
+        .close:focus,
+        .close:hover {
+            color: #eee;
+            text-decoration: none;
+            cursor: pointer;
+            opacity: 1;
+        }
+        
+        .glyphy {
+            top: 16px;
+            font-size: 23px;
+            color: white;
+        }
+        
+        #div ul li {
+            position: relative;
+        }
+        
+        #name {
+            font-size: 17px;
+            float: right;
+            color: black;
+            font-style: italic;
+            margin: 0 0 10px;
+        }
+        
+        #date,
+        #category {
+            font-weight: bolder;
+            font-style: italic;
+            color: #555;
+            margin: 0 0 10px;
+        }
+        
+        .dropdown-menu1 {
+            position: absolute;
+            top: 220%;
+            left: -133px;
+        }
+        
+        #addNoticeBtn {
+            position: fixed;
+            bottom: 10px;
+            width: 70px;
+            height: 70px;
+            right: 10px;
+            float: right;
+        }
+        
+        #notices,
+        li {
+            list-style: none;
+        }
+        
+        #notices {
+            overflow: hidden;
+            padding: 3em;
+        }
+        
+        #notices li {
+            text-decoration: none;
+            color: #000;
+            background: #ffc;
+            display: block;
+            width: 100%;
+            padding: 1em;
+            -moz-box-shadow: 5px 5px 7px rgba(33, 33, 33, 1);
+            -webkit-box-shadow: 5px 5px 7px rgba(33, 33, 33, .7);
+            box-shadow: 5px 5px 7px rgba(33, 33, 33, .7);
+            -moz-transition: -moz-transform .18s linear;
+            -o-transition: -o-transform .18s linear;
+            -webkit-transition: -webkit-transform .18s linear;
+        }
+        
+        #notices li {
+            width: 30%;
+            margin: 1em;
+            float: left;
+            position: relative;
+        }
+        
+        #notices li h2 {
+            font-size: 140%;
+            font-weight: bold;
+            padding-bottom: 10px;
+        }
+        
+        #notices li {
+            -webkit-transform: rotate(-6deg);
+            -o-transform: rotate(-6deg);
+            -moz-transform: rotate(-6deg);
+        }
+        
+        #notices li:nth-child(even) {
+            -o-transform: rotate(4deg);
+            -webkit-transform: rotate(4deg);
+            -moz-transform: rotate(4deg);
+            position: relative;
+            top: 5px;
+            background: #D1F2EB;
+        }
+        
+        #notices li:nth-child(3n) {
+            -o-transform: rotate(-3deg);
+            -webkit-transform: rotate(-3deg);
+            -moz-transform: rotate(-3deg);
+            position: relative;
+            top: -5px;
+            background: #E6F7B1;
+        }
+        
+        #notices li:nth-child(5n) {
+            -o-transform: rotate(5deg);
+            -webkit-transform: rotate(5deg);
+            -moz-transform: rotate(5deg);
+            position: relative;
+            top: -10px;
+        }
+        
+        .modal-backdrop.in {
+            opacity: 0.2;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 9px 12px;
+        }
+        
+        .jum {
+            margin-top: 3% !important;
+            width: 85%;
+            margin: 0 auto;
+        }
+        
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            color: white;
+            margin-top: 30px;
+            width: 100%;
+            height: 35%;
+            padding: 20px;
+        }
+        
+        .more_info {
+            position: absolute;
+            bottom: 10px;
+        }
+
+        .card:hover{
+            transform: scale(1.1);
+        }
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">ONLINE NOTICE BOARD</a>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <form class="navbar-left">
+                        <div class="input-group input-lg">
+                            <input type="text" class="form-control" onkeyup="mysearch()" placeholder="Search" name="search" id="searchInput">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="button" onclick="mysearch()">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-2">
+                    <div class="row">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-3">
+                            <div class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-toggle="tooltip" data-placement="top" title="Sort">
+                                    <span class="glyphicon glyphicon-sort-by-attributes-alt glyphy"></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu1">
+                                    <li><a onclick="sort_alpha()">Alphabetical</a></li>
+                                    <li><a onclick="sort_date()">Date</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-toggle="tooltip" data-placement="top" title="Filter">
+                                    <span class=" glyphicon glyphicon-filter glyphy"></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu1" id="filters">
+                                    <div style="margin-left: 20px;">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="1">Event</label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="2">Important</label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="3">Sports</label>
+                                        </div>
+
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="4">Placement</label>
+                                        </div>
+
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="5">Examination</label>
+                                        </div>
+
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="6">General</label>
+                                        </div>
+
+                                        <button type="button" id="applyBtn" class="btn btn-xs">Apply</button>
+                                        <button type="button" class="btn btn-xs">Cancel</button>
+                                    </div>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-4">
+                            <a href="#" class="dropdown-toggle glyphy" data-toggle="dropdown"><span class="caret"></span><span class="fa fa-4x fa-child"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#"><span class="fa fa-user"></span>  My Profile</a></li>
+                                <li><a href="#"><span class="fa fa-gear"></span>  Settings</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#"><span class="fa fa-power-off"></span>  Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+    <nav class="navbar navbar-inverse sidebar" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="../Admin/admin.html">Home<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
+                    <li class="active"
+                    ><a href="../AdminProfile/adminprofile.html">Profile<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
+                    <li><a href="../Allnotice/allnotice.html">All Notices<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-envelope"></span></a></li>
+                    <li><a href="../Approved/approve.html">Approved<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-ok"></span></a></li>
+                    <li><a href="../Rejected/rejected.html">Rejected<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-trash"></span></a></li>
+                    <li><a href="../Unapproved/unapproved.html">Unapproved<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-eye-open"></span></a></li>
+                     <li ><a href="../AllUser/alluser.html">All Users<span style="font-size:16px;" class="pull-right hidden-xs showopacity fa fa-users"></span></a></li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+    <div class="row">
+        <div class="full-width bg-transparent">
+
+    <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-xs-12">
+        <div class="full-width">
+            <h1 class="text-center color">Edit Profile</h1>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="custom-form">
+                <div class="text-center bg-form">
+                    <div class="img-section">
+                        <img src="admin3.jpg" class="imgCircle" alt="Profile picture">
+                        <span class="fake-icon-edit" id="PicUpload" style="color: #ffffff;"><span class="glyphicon glyphicon-camera camera"></span></span>
+                    <div class="col-lg-12">
+                        <h4 class="text-right col-lg-12"><span class="glyphicon glyphicon-edit"></span> Edit Profile</h4>
+                        <input type="checkbox" class="form-control" id="checker">
+                    </div>
+                    </div>
+                    <input type="file" id="image-input" onchange="readURL(this);" accept="image/*" disabled class="form-control form-input Profile-input-file" >
+                </div>
+                <div class="col-lg-12 col-md-12">
+                    <input type="text" class="form-control form-input" value="ABCDEFG XYZ" placeholder="Name" disabled id="name">
+                    <span class="glyphicon glyphicon-user input-place"></span>
+                </div>
+                <div class="col-lg-12 col-md-12">
+                    <input type="text" class="form-control form-input" value="abcde@gmail.com" placeholder="Email ID" disabled id="email">
+                    <span class="glyphicon glyphicon-envelope input-place"></span>
+                </div>
+                <div class="col-lg-12 col-md-12">
+                    <input type="text" class="form-control form-input" value="+91-00000000" placeholder="Phone Number" disabled id="phone">
+                    <span class="glyphicon glyphicon-earphone input-place"></span>
+                </div>
+                <div class="col-lg-12 col-md-12">
+                    <input type="text" class="form-control form-input" value="New Delhi, India" placeholder="Address" disabled id="place">
+                    <span class="glyphicon glyphicon-map-marker input-place"></span>
+                </div>
+                <div class="col-lg-12 col-md-12 text-center">
+                    <button class="btn btn-info btn-lg custom-btn" id="submit" disabled><span class="glyphicon glyphicon-save"></span> Save</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+        
+    </div>
+</div>
+
+
+<!--==================================== sorry I am a newbie in bootsnipp so I am unable to link js to html in bootsnipp thats why I have included the script in html ===================-->
+
+<script>
+
+    $('input[id=base-input]').change(function() {
+        $('#fake-input').val($(this).val().replace("C:\\fakepath\\", ""));
+    });
+
+    <!--==================Javascript code for custom input type file on button ================-->
+
+    $('input[id=main-input]').change(function() {
+        console.log($(this).val());
+        var mainValue = $(this).val();
+        if(mainValue == ""){
+            document.getElementById("fake-btn").innerHTML = "Choose File";
+        }else{
+            document.getElementById("fake-btn").innerHTML = mainValue.replace("C:\\fakepath\\", "");
+        }
+    });
+
+    <!--=========================input type file change on button ends here====================-->
+
+//    ===================== snippet for profile picture change ============================ //
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('.imgCircle')
+                        .attr('src', e.target.result)
+                        .width(200)
+                        .height(200);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+//    =================================== ends here ============================================ //
+
+    var checkme = document.getElementById('checker');
+    var userImage = document.getElementById('image-input');
+    var userName = document.getElementById('name');
+    var userPhone = document.getElementById('phone');
+    var userEmail = document.getElementById('email');
+    var userPlace = document.getElementById('place');
+    var UserSend = document.getElementById('submit');
+    var editPic = document.getElementById('PicUpload');
+    checkme.onchange = function() {
+        UserSend.disabled = !this.checked;
+        userImage.disabled = !this.checked;
+        userName.disabled = !this.checked;
+        userPhone.disabled = !this.checked;
+        userEmail.disabled = !this.checked;
+        userPlace.disabled = !this.checked;
+        editPic.style.display = this.checked ? 'block' : 'none';
+    };
+    </script>
+
+</body>
+</html>

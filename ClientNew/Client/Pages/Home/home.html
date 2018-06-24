@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Notice Board</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
+</head>
+
+<script>
+
+function clear_cookie()
+    {
+         document.cookie = "id=;path=/;";
+          document.cookie = "name=;path=/;";
+           document.cookie = "fletter=;path=/;";
+   
+        location.reload(true);
+    }
+
+function getCookie(name) {
+      var value = "; " + document.cookie;
+      var parts = value.split("; " + name + "=");
+      if (parts.length == 2) return parts.pop().split(";").shift();
+    }
+
+ $(document).ready(function() {
+
+          if(getCookie("id")==null || getCookie("id")=="")
+        {
+           window.location.href="../../index.html";
+          }
+
+          $("#welcome_user").html("Welcome "+getCookie("name"));
+          $("#login_user").html(getCookie("fletter"));
+           $("#userName").html(getCookie("name"));
+
+            var reqObj={
+          "id":getCookie("id")
+        };
+
+          axios.post('http://localhost:8085/particular_user_details', reqObj)
+        .then(function (data) {
+
+          console.log(data);
+                $("#users").html(data.data.rejected);
+                $("#all_notice").html(data.data.all_notice);
+                $("#u_notice").html(data.data.unapprove);
+                $("#a_notice").html(data.data.approve);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+          
+
+
+
+    
+
+        });
+
+ function total()
+ {
+  window.location.href="../Insert/insert.html"
+ }
+
+
+ function reject()
+ {
+  window.location.href="../Reject/reject.html"
+ }
+
+ function approve()
+ {
+  window.location.href="../Insert/insert.html"
+ }
+
+ function unapprove()
+ {
+  window.location.href="../Unapprove/unapprove.html"
+ }
+
+</script>
+<style type="text/css">
+  <style type="text/css">
+
+body {
+  padding-top: 70px;
+    background-color: #f5f5f5 !important;
+    font-family: fantasy;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #fff;
+}
+
+.dropdown-user:hover {
+    cursor: pointer;
+}*/
+
+.table-user-information  tbody  tr {
+    border-top: 1px solid rgb(221, 221, 221);
+}
+
+.table-user-information > tbody > tr:first-child {
+    border-top: 0;
+}
+
+
+.table-user-information > tbody > tr > td {
+    border-top: 0;
+}
+
+   .navbar-brand {
+        text-shadow: 2px 2px #f2dede;
+    float: left;
+    color: #555 !important;
+    font-family: fantasy;
+    letter-spacing: 3px;
+    padding: 15px 22px;
+    font-size: 28px;
+    line-height: 25px;
+
+}
+.navbar-inverse {
+    box-shadow: 7px 6px 4px rgba(0,0,0,.5);
+    background-color: #fcf8e3;;
+    border-color: #080808;
+    }
+
+.navbar {
+    height: 65px;
+    padding: 5px;
+    border-radius: 0px;
+    }
+.navbar-form .input-group {
+    display: inline-table;
+    width: 400%;
+    vertical-align: middle;
+  }
+ 
+
+.glyphy
+{
+      top: 16px;
+    font-size: 23px;
+    color: #333;
+}
+  #div ul li
+  {
+    position: relative;
+
+  }
+
+ 
+
+#date,#category{
+        font-weight: bolder;
+    font-style: italic;
+    color: #555;
+    margin: 0 0 10px;
+}
+.dropdown-menu {
+    position: absolute;
+    top: 135%;
+    left: -133px;
+}
+
+
+#sidebarCollapse {
+    background-color: #fcf8e3;
+    display: inline-block;
+    float: left;
+    color: black;
+    margin-right: 0;
+}
+
+.sidenav {
+    height: 100%;
+    width: 220px;
+    position: fixed;
+    z-index: 1;
+    top: 20px;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+    font-size: 22px;
+    background-color: #222
+}
+
+.sidenav .closebtn {
+ /*   position: absolute;
+    top: 0;
+    right: 25px;*/
+    font-size: 36px;
+    margin-left: 50px;
+}
+div#main {
+    margin-left: 220px;
+}
+
+#userprofile_container{
+  
+  margin-top: 80px;
+}
+#login_user
+    {
+        cursor: pointer;
+               width: 45px;
+  
+    color: #fcf8e3;
+    background: #555555;
+    font-size: 32px;
+    margin-top: 5px;
+    margin-left: -10px;
+    padding-left: 11px !important;
+    border-radius: 50%;
+    }
+    .navbar-inverse .navbar-toggle .icon-bar {
+    background-color: #000;
+}
+.navbar-inverse .navbar-toggle{
+  border-color: transparent;
+}
+
+.btn {
+            display: inline-block;
+            padding: 9px 12px;
+        }
+        
+        .jum {
+             margin-top: 3% !important;
+    width: 100%;
+    margin: 0 auto;
+        }
+        
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            color: white;
+            margin-top: 30px;
+            width: 113%;
+                padding-top: 1px !important;
+            padding: 14px 15px;
+        }
+        
+        .more_info {
+            position: absolute;
+            bottom: 10px;
+        }
+
+
+        .card:hover{
+               transform: scale(1.1);
+        }
+       .container1
+        {
+              margin-top: 71px;
+        }
+
+</style>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-4">
+    <div class="navbar-header">
+       <a class="navbar-brand" href='../../index.html'>ONLINE NOTICE BOARD</a>
+    </div>
+    </div>
+  <div class="col-sm-6">
+    <form class="navbar-left">
+      <div class="input-group input-lg">
+        <input type="text" class="form-control" onkeyup="mysearch()" placeholder="Search" name="search" id="searchInput">
+        <div class="input-group-btn">
+          <button class="btn btn-default" type="button" onclick="mysearch()" style="height: 34px">
+            <i class="glyphicon glyphicon-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+    </div>
+     <div class="col-sm-2">
+      <div class="row">
+      <div class="col-sm-3"></div>
+    <div class="col-sm-3">
+     <div class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-toggle="tooltip" data-placement="top" title="Sort">
+          <span class="glyphicon glyphicon-sort-by-attributes-alt glyphy"></span>
+        </a>
+    <ul class="dropdown-menu">
+      <li><a onclick="sort_alpha()">Alphabetical</a></li>
+      <li><a onclick="sort_date()">Date</a></li>
+    </ul>
+  </div>
+</div>
+ <div class="col-sm-3">
+  <div class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-toggle="tooltip" data-placement="top" title="Filter">
+          <span class=" glyphicon glyphicon-filter glyphy"></span>
+        </a>
+    <ul class="dropdown-menu" id="filters">
+    <div style="margin-left: 20px;">
+    <div class="checkbox">
+      <label><input type="checkbox" value="1">Event</label>
+    </div>
+    <div class="checkbox">
+      <label><input type="checkbox" value="2">Important</label>
+    </div>
+    <div class="checkbox">
+      <label><input type="checkbox" value="3">Sports</label>
+    </div>
+
+     <div class="checkbox">
+      <label><input type="checkbox" value="4">Placement</label>
+    </div>
+
+     <div class="checkbox">
+      <label><input type="checkbox" value="5">Examination</label>
+    </div>
+
+     <div class="checkbox">
+      <label><input type="checkbox" value="6">General</label>
+    </div>
+
+    <button type="button" id="applyBtn" class="btn btn-xs">Apply</button>
+    <button type="button" class="btn btn-xs">Cancel</button>
+  </div>
+    </ul>
+  </div>
+
+   
+        </div>
+
+        <div class="col-sm-3">
+   <div id='login_user' class='dropdown-toggle' data-toggle='dropdown'></div><ul class='dropdown-menu' role='menu' style='position:absolute;left:-122px;top:100%'><li style='font-style: italic;font-weight: bolder;margin: 5px 18px' id="userName"></li><li><a href='../../Pages/Profile/userprofile.html'><span class='fa fa-user'></span>   My Profile</a></li><li><a href='../../Pages/Insert/insert.html'><span class='fa fa-gear'></span>  Dashboard</a></li><li class='divider'></li><li><a onclick='clear_cookie()'><span class='fa fa-power-off'></span>  Logout</a></li></ul>
+</div>
+        </div>
+        </div>
+    
+  </div>
+  </div>
+</nav>
+
+     <div class="container container1">
+        <div class="jumbotron jum">
+            <h1 id="welcome_user" style="font-size: 62px; font-family: fantasy;letter-spacing: 2px;"></h1>
+            <br>
+            <p>Choose options to do anything you want!!</p>
+        </div>
+        <div>
+            <div class="row">
+                <div class="col-sm-3" onclick="reject()">
+
+                    <div class="card" style="background-color: #f39c11">
+                        <div class="card-body">
+                            <h1 id="users" class="card-title" style="color: white;font-size: 70px"></h1>
+                            <p class="card-text" style="font-size: 30px;font-family: fantasy;letter-spacing: 1px;">Rejected Notices</p>
+                        </div>
+                      
+                    </div>
+                </div>
+                <div class="col-sm-3" onclick="total()">
+                    <div class="card" style="background-color: #de4b39">
+                        <div class="card-body">
+                            <h1 id="all_notice" class="card-title" style="color: white;font-size: 70px"></h1>
+                            <p class="card-text" style="font-size: 30px;font-family: fantasy;letter-spacing: 1px;">Total Notices</p>
+                        </div>
+                      
+                    </div>
+                </div>
+                <div class="col-sm-3" onclick="unapprove()">
+                    <div class="card" style="background-color: #00a65a">
+                        <div class="card-body">
+                            <h1 id="u_notice" class="card-title" style="color: white;font-size: 70px"></h1>
+                            <p class="card-text" style="font-size: 30px;font-family: fantasy;letter-spacing: 1px;">Unapproved Notices</p>
+                        </div>
+                      
+                    </div>
+                </div>
+                <div class="col-sm-3" onclick="approve()">
+                    <div class="card" style="background-color: #0073b6">
+                        <div class="card-body">
+                            <h1 id="a_notice" class="card-title" style="color: white;font-size: 70px"></h1>
+                            <p class="card-text" style="font-size: 30px;font-family: fantasy;letter-spacing: 1px;">Approved Notices</p>
+                        </div>
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</body>
+</html>
+

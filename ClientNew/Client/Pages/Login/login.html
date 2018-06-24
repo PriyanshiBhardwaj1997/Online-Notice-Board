@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Notice Board</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<style type="text/css">
+    /* Bordered form */
+    
+    form {
+        margin-top: 7% !important;
+        margin: 0 auto;
+        background-color: white;
+        width: 35%;
+        border-radius: 17px;
+        box-shadow: 0px 3px 3px 3px #ccc;
+        border: 4px solid #4caf50;
+    }
+    /* Full-width inputs */
+    
+    input[type=text],
+    input[type=password] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+    /* Set a style for all buttons */
+    
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+    }
+    /* Add a hover effect for buttons */
+    
+    button:hover {
+        opacity: 0.8;
+    }
+    /* Extra style for the cancel button (red) */
+    
+    .cancelbtn {
+        width: auto;
+        padding: 10px 18px;
+        background-color: #f44336;
+    }
+    /* Center the avatar image inside this container */
+    
+    .imgcontainer {
+        position: relative;
+        text-align: center;
+        margin: 24px 0 12px 0;
+    }
+    /* Avatar image */
+    
+    img.avatar {
+        position: absolute;
+        width: 29%;
+        /* border: black; */
+        border: 4px solid rgba(0, 0, 0, .075);
+        right: 20px;
+        top: -100px;
+        border-radius: 50%;
+    }
+    /* Add padding to containers */
+    
+    .container {
+        margin: 0 auto;
+        width: 100%;
+        padding: 27px;
+    }
+    /* The "Forgot password" text */
+    
+    span.psw {
+        float: right;
+        padding-top: 16px;
+    }
+    
+    .error_msg {
+        font-size: 15px;
+        margin-bottom: 15px;
+        font-family: monospace;
+        color: #E53935;
+    }
+    
+    .error_style {
+        color: red;
+        background-color: rgba(0, 0, 0, .075);
+        padding: 20px 6px;
+        text-align: center;
+        display: none;
+    }
+    
+    #backBtn {
+        border-radius: 50%;
+        background: #4caf50;
+        bottom: 50px;
+        width: 100px;
+        height: 100px;
+        padding: 6px;
+        right: 20px;
+        float: right;
+        position: fixed;
+    }
+</style>
+<script type="text/javascript">
+    function validate1() {
+
+        var email = document.forms["login_form"]["email"];
+        var password = document.forms["login_form"]["psw"];
+
+        if (email.value == "" && password.value == "") {
+            document.getElementById("error_msg_email").innerHTML = "* Email field must be filled out";
+            email.style.border = '1px solid #E53935';
+            password.style.border = '1px solid #E53935';
+            document.getElementById("error_msg_psw").innerHTML = "* Password field must be filled out";
+            return false;
+        }
+
+        if (email.value == "") {
+
+            email.style.border = '1px solid #E53935';
+            document.getElementById("error_msg_email").innerHTML = "* Email field must be filled out";
+
+            return false;
+        }
+        if (password.value == "") {
+
+            password.style.border = '1px solid #E53935';
+            document.getElementById("error_msg_psw").innerHTML = "* Password field must be filled out";
+
+            return false;
+        }
+
+        if (password.value.length > 10 || password.value.length < 3) {
+
+            password.style.border = '1px solid #E53935';
+            document.getElementById("error_msg_psw").innerHTML = "* Password length should be between 4 to 10";
+
+            return false;
+        }
+
+        if (email.value != "") {
+
+            if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email.value))) {
+                email.style.border = '1px solid #E53935';
+                document.getElementById("error_msg_email").innerHTML = "* Invalid email address";
+                return false;
+            }
+        }
+
+        console.log(email.value);
+        $.ajax({
+            type: 'POST',
+            url: "http://localhost:8085/login",
+            data: {
+                email: email.value,
+                password: password.value
+            },
+            success: function(success) {
+
+                if (success === "500") {
+                    console.log("No valid user");
+
+                    $("#error_msg").show();
+                } else {
+                    console.log(success);
+                   
+                    document.cookie = "id="+success[0].user_id+";path=/";
+
+                      document.cookie = "name="+success[0].user_name+";path=/";
+
+                      var first_letter=success[0].user_name.charAt(0).toUpperCase();
+
+                      document.cookie = "fletter="+first_letter+";path=/";
+
+                    window.location.href = '../../index.html';
+
+                }
+
+            }
+        });
+    }
+
+    function remove_errror_email() {
+        $("#error_msg").hide();
+        var email = document.forms["login_form"]["email"];
+        email.style.border = '1px solid #ccc';
+        document.getElementById("error_msg_email").innerHTML = "";
+    }
+
+    function remove_errror_psw() {
+
+        $("#error_msg").hide();
+        var password = document.forms["login_form"]["psw"];
+        password.style.border = '1px solid #ccc';
+
+        document.getElementById("error_msg_psw").innerHTML = "";
+    }
+
+    function clear_all() {
+        var email = document.forms["login_form"]["email"];
+        var password = document.forms["login_form"]["psw"];
+        email.value = "";
+        password.value = "";
+
+    }
+
+    $(document).ready(function() {
+        $('#backBtn').click(function() {
+            window.location.href = '../../index.html';
+        });
+    });
+</script>
+
+<body>
+    <form name="login_form">
+
+        <div class="imgcontainer">
+            <img src="img_avatar2.png" alt="Avatar" class="avatar">
+        </div>
+
+        <div class="container" style="margin-top: 10% !important;">
+            <label for="uname"><b>Email</b></label>
+            <input type="text" placeholder="Enter Email" name="email" onfocus="remove_errror_email()">
+            <div id="error_msg_email" class="error_msg"></div>
+
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="psw" onfocus="remove_errror_psw()">
+            <div id="error_msg_psw" class="error_msg"></div>
+
+            <button type="button" onclick="return validate1()">Login</button>
+
+        </div>
+
+        <div class="container" style="background-color:#f1f1f1;padding: 13px !important;">
+            <div id="error_msg" class="error_msg error_style">!OOPs Wrong input..Try Again..</div>
+            <button type="button" class="cancelbtn" onclick="clear_all()">Cancel</button>
+            <span class="psw">Dont have an account? <a href="../Register/registration.html">Sign Up</a></span>
+        </div>
+    </form>
+    </div>
+    <img src="back_btn.png" id="backBtn" data-toggle="tooltip" data-placement="top" title="Back to Home">
+    </div>
+</body>
+
+</html>

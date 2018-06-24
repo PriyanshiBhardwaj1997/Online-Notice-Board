@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Notice Board</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./timeAgo.js"></script>
+</head>
+
+<script>
+    function mysearch() {
+        var input, filter, ul, li, h2, i, p;
+        input = document.getElementById("searchInput");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("notices");
+        li = ul.getElementsByTagName("li");
+        for (i = 0; i < li.length; i++) {
+            h2 = li[i].getElementsByTagName("h2")[0];
+            p = li[i].getElementsByTagName("p")[0];
+
+            if (h2.innerHTML.toUpperCase().indexOf(filter) > -1 || p.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+
+            }
+        }
+    }
+
+    function sort_alpha() {
+        var list, i, switching, b, shouldSwitch;
+        list = document.getElementById("notices");
+        switching = true;
+        while (switching) {
+
+            switching = false;
+            b = list.getElementsByTagName("li");
+            for (i = 0; i < (b.length - 1); i++) {
+
+                shouldSwitch = false;
+
+                if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            if (shouldSwitch) {
+                b[i].parentNode.insertBefore(b[i + 1], b[i]);
+                switching = true;
+            }
+        }
+    }
+
+    function sort_date() {
+        console.log(notice_arr);
+        notice_arr.sort(SortByDate);
+        console.log(notice_arr);
+        var $notices = $('#notices');
+
+        $("#notices").empty();
+        for (var i = 0; i < notice_arr.length; i++) {
+
+            var description = notice_arr[i].data.full_desc;
+            var brief_desc = description.substr(0, 400);
+
+
+
+            $notices.append('<li data-id=' + i + ' class="open-Dialog" data-toggle="modal" data-target="#myModal"><img id ="img_pin" src="pin.png"></img><h2>' + notice_arr[i].data.title + '<br></h2><p>' + brief_desc + '....</p><br><p>Category : ' + notice_arr[i].category + '</p><p>Posted Date : ' + notice_arr[i].data.creation_date + '</p></li>');
+        }
+    }
+
+    function SortByDate(a, b) {
+
+        var amyDate = a.data.creation_date.split("-");
+        var aNewDate = new Date(amyDate[1] + "," + amyDate[0] + "," + amyDate[2]).getTime();
+
+        var bmyDate = b.data.creation_date.split("-");
+        var bNewDate = new Date(bmyDate[1] + "," + bmyDate[0] + "," + bmyDate[2]).getTime();
+
+        return ((aNewDate > bNewDate) ? -1 : ((aNewDate < bNewDate) ? 1 : 0));
+    }
+    function getCookie(name) {
+      var value = "; " + document.cookie;
+      var parts = value.split("; " + name + "=");
+      if (parts.length == 2) return parts.pop().split(";").shift(); 
+    }
+    var notice_arr = [];
+    $(document).ready(function() {
+
+        console.log(getCookie("id"));
+         console.log(getCookie("name"));
+          console.log(getCookie("fletter"));
+
+        if(getCookie("id")!=null && getCookie("id")!="")
+        {
+    $('.change_login').html("<div id='login_user' class='dropdown-toggle' data-toggle='dropdown'>"+getCookie("fletter")+"</div><ul class='dropdown-menu' role='menu' style='position:absolute;left:-122px;top:100%'><li style='font-style: italic;font-weight: bolder;margin: 5px 18px'>"+getCookie("name")+"</li><li><a href='./Pages/Profile/userprofile.html'><span class='fa fa-user'></span>   My Profile</a></li><li><a href='./Pages/Home/home.html'><span class='fa fa-gear'></span>  Dashboard</a></li><li class='divider'></li><li><a onclick='clear_cookie()'><span class='fa fa-power-off'></span>  Logout</a></li></ul>");
+        }
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $('#addNoticeBtn').click(function() {
+            window.location.href = 'Pages/Login/login.html';
+        })
+
+        var $notices = $('#notices');
+
+        $.ajax({
+            type: 'GET',
+            url: "http://localhost:8085/getNotices",
+            success: function(notices) {
+                console.log("Success");
+                $.each(notices, function(i, notice) {
+                    notice_arr.push(notice);
+                })
+                console.log(notice_arr);
+                for (var i = notice_arr.length-1; i >=0; i--) {
+
+                    var description = notice_arr[i].data.full_desc;
+                    var brief_desc = description.substr(0, 300);
+
+                    var date = $.timeago(notice_arr[i].data.updation_date);
+
+                    $notices.append('<li data-id=' + i + ' class="open-Dialog" data-toggle="modal" data-target="#myModal"><img id ="img_pin" src="pin.png"></img><h2>' + notice_arr[i].data.title + '<br></h2><p>' + brief_desc + '....</p><br><p>Category : ' + notice_arr[i].category + '</p><p>' + date + '</p></li>');
+                }
+            }
+        });
+    });
+
+    $(document).on("click", ".open-Dialog", function() {
+        var myBookId = $(this).data('id');
+        var x = $(this).css("background-color");
+        console.log(x);
+        $(".modal-body").css('background-color', x);
+        $(".modal-footer").css('background-color', x);
+        $(".modal-header #title").css('color', x);
+
+        $(".modal-header #title").text(notice_arr[myBookId].data.title);
+
+        $(".modal-body #description").text(notice_arr[myBookId].data.full_desc);
+
+        $(".modal-body #name").text('~ By ' + notice_arr[myBookId].data.user_name);
+
+        $(".modal-footer #category").text('Category : ' + notice_arr[myBookId].category);
+
+        $(".modal-footer #date").text('Posted Date : ' + notice_arr[myBookId].data.creation_date);
+
+    });
+
+    $(function() {
+        $('#applyBtn').click(function() {
+            var checked_category = [];
+
+            $(':checkbox:checked').each(function(i) {
+                checked_category.push($(this).val());
+            });
+
+            if (checked_category.length == 0) {
+                window.location.href = 'index.html';
+            }
+
+            var reqObj = {
+                "checked_category": checked_category
+            };
+            var $notices = $('#notices');
+            $("#notices").empty();
+
+            axios.post('http://localhost:8085/filter', reqObj)
+                .then(function(notices) {
+
+                    console.log(notices.data);
+                    notice_arr = [];
+
+                    $.each(notices.data, function(i, notice) {
+                        notice_arr.push(notice);
+                    })
+                    console.log(notice_arr);
+                    for (var i = notice_arr.length-1; i >=0; i--) {
+
+                        var description = notice_arr[i].data.full_desc;
+                        var brief_desc = description.substr(0, 300);
+
+                        $notices.append('<li data-id=' + i + ' class="open-Dialog" data-toggle="modal" data-target="#myModal"><img id ="img_pin" src="pin.png"></img><h2>' + notice_arr[i].data.title + '<br></h2><p>' + brief_desc + '....</p><br><p>Category : ' + notice_arr[i].category + '</p><p>Posted Date : ' + notice_arr[i].data.creation_date + '</p></li>');
+                    }
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        });
+
+    });
+    function clear_cookie()
+    {
+         document.cookie = "id=;path=/;";
+          document.cookie = "name=;path=/;";
+           document.cookie = "fletter=;path=/;";
+   
+        location.reload(true);
+    }
+</script>
+
+<style type="text/css">
+    body {
+        padding-top: 70px;
+        background-color: #f5f5f5 !important;
+        font-family: monospace;
+        font-size: 14px;
+        line-height: 1.42857143
+        color: #333;
+        background-color: #fff;
+    }
+    
+    h5 {
+        font-size: 15px;
+        letter-spacing: 1px;
+        color: #555;
+    }
+    
+    h4 {
+        font-size: 25px;
+        color: #D1F2EB;
+        text-align: center;
+    }
+    
+    #img_pin {
+       top: 0px;
+    left: 85%;
+    z-index: 1;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    }
+    
+    .navbar-brand {
+        float: left;
+        height: 55px;
+        padding: 15px 15px;
+        font-size: 25px;
+        line-height: 20px;
+    }
+    
+    .navbar-inverse {
+        box-shadow: 7px 6px 4px rgba(0, 0, 0, .5);
+        background-color: #fcf8e3;
+        ;
+        border-color: #080808;
+    }
+    
+    .navbar {
+        height: 65px;
+        padding: 5px;
+        border-radius: 0px;
+    }
+    
+    .navbar-form .input-group {
+        display: inline-table;
+        width: 400%;
+        vertical-align: middle;
+    }
+    
+    .navbar-brand {
+        text-shadow: 2px 2px #f2dede;
+        float: left;
+        color: #555 !important;
+        font-family: fantasy;
+        letter-spacing: 3px;
+        padding: 15px 15px;
+        font-size: 35px;
+        line-height: 25px;
+    }
+    
+    .modal-content {
+        background-color: rgb(123, 123, 123);
+        ;
+    }
+    
+    .modal-body {
+        background: #D1F2EB;
+        position: relative;
+        padding: 32px;
+    }
+    
+    .modal-header {
+        background-color: rgba(0, 0, 0, .5);
+        padding: 15px;
+    }
+    
+    .modal-footer {
+        border-top: 1px solid #080808;
+        padding: 15px;
+    }
+    
+    .close {
+        float: right;
+        font-size: 45px;
+        font-weight: bolder;
+        /* font-weight: 700; */
+        line-height: 1;
+        color: white;
+        text-shadow: 3px 3px 0 #080808;
+        opacity: 1;
+    }
+    
+    .close:focus,
+    .close:hover {
+        color: #eee;
+        text-decoration: none;
+        cursor: pointer;
+        opacity: 1;
+    }
+    
+    .glyphy {
+        top: 16px;
+        font-size: 23px;
+        color: #333;
+    }
+    
+    #div ul li {
+        position: relative;
+    }
+    
+    #name {
+        font-size: 17px;
+        float: right;
+        color: black;
+        font-style: italic;
+        margin: 0 0 10px;
+    }
+    
+    #date,
+    #category {
+        font-weight: bolder;
+        font-style: italic;
+        color: #555;
+        margin: 0 0 10px;
+    }
+    
+    .dropdown-menu {
+        position: absolute;
+        top: 135%;
+        left: -133px;
+    }
+    
+    #addNoticeBtn {
+        position: fixed;
+        bottom: 10px;
+        width: 70px;
+        height: 70px;
+        right: 10px;
+        float: right;
+    }
+    div#div {
+    margin: 60px 0;
+}
+    #notices,
+    li {
+        list-style: none;
+    }
+    
+    #notices {
+        overflow: visible;
+        padding: 0em;
+    }
+    ul#notices h2 {
+        margin:  0;
+        padding: 10px 15px;
+        background: rgba(0,0,0,0.3);
+        margin-bottom: 15px;
+    }
+
+    ul#notices p {
+        margin: 0;
+        padding: 0 15px;
+    }
+    
+    #notices li {
+        text-decoration: none;
+        color: #000;
+        background: #ffc;
+        display: block;
+        width: 100%;
+        padding-bottom: 1em;
+        -moz-box-shadow: 5px 5px 7px rgba(33, 33, 33, 1);
+        -webkit-box-shadow: 5px 5px 7px rgba(33, 33, 33, .7);
+        box-shadow: 5px 5px 7px rgba(33, 33, 33, .7);
+        -moz-transition: -moz-transform .18s linear;
+        -o-transition: -o-transform .18s linear;
+        -webkit-transition: -webkit-transform .18s linear;
+    }
+    
+    #notices li {
+        width: 30%;
+        margin: 3em 1em;
+        float: left;
+        position: relative;
+    }
+    
+    #notices li h2 {
+        font-size: 140%;
+        font-weight: bold;
+        padding-bottom: 10px;
+    }
+    
+    #notices li {
+        -webkit-transform: rotate(-6deg);
+        -o-transform: rotate(-6deg);
+        -moz-transform: rotate(-6deg);
+    }
+    
+    #notices li:nth-child(even) {
+        -o-transform: rotate(4deg);
+        -webkit-transform: rotate(4deg);
+        -moz-transform: rotate(4deg);
+        position: relative;
+        top: 5px;
+        background: #D1F2EB;
+    }
+    
+    #notices li:nth-child(3n) {
+        -o-transform: rotate(-3deg);
+        -webkit-transform: rotate(-3deg);
+        -moz-transform: rotate(-3deg);
+        position: relative;
+        top: -5px;
+        background: #E6F7B1;
+    }
+    
+    #notices li:nth-child(5n) {
+        -o-transform: rotate(5deg);
+        -webkit-transform: rotate(5deg);
+        -moz-transform: rotate(5deg);
+        position: relative;
+        top: -10px;
+    }
+    
+    .modal-backdrop.in {
+        opacity: 0.2;
+    }
+
+    #login_user
+    {
+        cursor: pointer;
+               width: 45px;
+  
+    color: #fcf8e3;
+    background: #555555;
+    font-size: 32px;
+    margin-top: 5px;
+    margin-left: -10px;
+    padding-left: 14px !important;
+    padding: -8px 40px;
+    border-radius: 50%;
+    }
+
+</style>
+
+<body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="./index.html">ONLINE NOTICE BOARD</a>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <form class="navbar-left">
+                        <div class="input-group input-lg">
+                            <input type="text" class="form-control" onkeyup="mysearch()" placeholder="Search" name="search" id="searchInput">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="button" onclick="mysearch()">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-2">
+                    <div class="row">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-3">
+                            <div class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-toggle="tooltip" data-placement="top" title="Sort">
+                                    <span class="glyphicon glyphicon-sort-by-attributes-alt glyphy"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a onclick="sort_alpha()">Alphabetical</a></li>
+                                    <li><a onclick="sort_date()">Date</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-toggle="tooltip" data-placement="top" title="Filter">
+                                    <span class=" glyphicon glyphicon-filter glyphy"></span>
+                                </a>
+                                <ul class="dropdown-menu" id="filters">
+                                    <div style="margin-left: 20px;">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="1">Event</label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="2">Important</label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="3">Sports</label>
+                                        </div>
+
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="4">Placement</label>
+                                        </div>
+
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="5">Examination</label>
+                                        </div>
+
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="6">General</label>
+                                        </div>
+
+                                        <button type="button" id="applyBtn" class="btn btn-xs">Apply</button>
+                                        <button type="button" class="btn btn-xs">Cancel</button>
+                                    </div>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-3 change_login">
+                            <a href="Pages/Login/login.html" class="dropdown-toggle" data-toggle="tooltip" data-placement="left" title="Login">
+                                <span class="glyphicon glyphicon-log-in glyphy"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div id="div">
+            <ul id="notices">
+
+            </ul>
+
+        </div>
+        <img src="addNotice.png" id="addNoticeBtn" data-toggle="tooltip" data-placement="top" title="Add Notice">
+    </div>
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 id="title"></h4>
+
+                </div>
+                <div class="modal-body">
+
+                    <h5 id='description'></h5>
+                    <p id="name"></p>
+
+                </div>
+                <div class="modal-footer">
+
+                    <p id="category"></p>
+                    <p id="date"></p>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

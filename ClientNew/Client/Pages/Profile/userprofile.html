@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Notice Board</title>
+   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="application/javascript" src="../../Cookies/cookies.js"></script>
+
+</head>
+
+<script>
+function clear_cookie()
+    {
+         document.cookie = "id=;path=/;";
+          document.cookie = "name=;path=/;";
+           document.cookie = "fletter=;path=/;";
+   
+        location.reload(true);
+    }
+
+function getCookie(name) {
+      var value = "; " + document.cookie;
+      var parts = value.split("; " + name + "=");
+      if (parts.length == 2) return parts.pop().split(";").shift();
+    }
+
+ $(document).ready(function() {
+
+          if(getCookie("id")==null || getCookie("id")=="")
+        {
+           window.location.href="../../index.html";
+          }
+
+          $("#login_user").html(getCookie("fletter"));
+           $("#userName").html(getCookie("name"));
+          
+        });
+
+function mysearch() {
+    var input, filter, ul, li, h2, i,p;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("notices");
+    li = ul.getElementsByTagName("li");
+    for (i = 0; i < li.length; i++) {
+        h2 = li[i].getElementsByTagName("h2")[0];
+        p= li[i].getElementsByTagName("p")[0];
+
+        if (h2.innerHTML.toUpperCase().indexOf(filter) > -1 || p.innerHTML.toUpperCase().indexOf(filter) > -1 ) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+
+        }
+    }
+}
+
+function sort_alpha()
+{
+  var list, i, switching, b, shouldSwitch;
+  list = document.getElementById("notices");
+  switching = true;
+  while (switching) {
+
+    switching = false;
+    b = list.getElementsByTagName("li");
+    for (i = 0; i < (b.length - 1); i++) {
+  
+      shouldSwitch = false;
+  
+      if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
+        shouldSwitch= true;
+        break;
+      }
+    }
+    if (shouldSwitch) {
+      b[i].parentNode.insertBefore(b[i + 1], b[i]);
+      switching = true;
+    }
+  }
+}
+
+function sort_date()
+{
+  console.log(notice_arr);
+   notice_arr.sort(SortByDate);
+   console.log(notice_arr);
+   var $notices=$('#notices');
+
+    $("#notices").empty();
+   for (var i = 0; i < notice_arr.length; i++) {
+
+              var description=notice_arr[i].data.full_desc;
+              var brief_desc = description.substr(0,400);
+              
+                
+            $notices.append('<li data-id='+i+' class="open-Dialog" data-toggle="modal" data-target="#myModal"><img id ="img_pin" src="pin.png"></img><h2>'+notice_arr[i].data.title+'<br></h2><p>'+brief_desc+'....</p><br><p>Category : '+notice_arr[i].category+'</p><p>Posted Date : '+notice_arr[i].data.creation_date+'</p></li>');
+            }
+}
+
+function SortByDate(a, b){
+
+       var amyDate = a.data.creation_date.split("-");
+       var aNewDate=new Date(amyDate[1]+","+amyDate[0]+","+amyDate[2]).getTime();
+
+       var bmyDate = b.data.creation_date.split("-");
+       var bNewDate=new Date(bmyDate[1]+","+bmyDate[0]+","+bmyDate[2]).getTime();
+
+       return ((aNewDate > bNewDate) ? -1 : ((aNewDate < bNewDate) ? 1 : 0));
+    }
+
+
+ $(function(){
+      $('#applyBtn').click(function(){
+        var checked_category = [];
+
+
+        $(':checkbox:checked').each(function(i){
+          checked_category.push($(this).val());
+        });
+
+        if(checked_category.length==0)
+        {
+           window.location.href='index.html'; 
+        }
+
+      var reqObj={
+          "checked_category":checked_category
+        };
+      var $notices=$('#notices');
+       $("#notices").empty();
+
+     axios.post('http://localhost:8085/filter', reqObj)
+        .then(function (notices) {
+
+          console.log(notices.data);
+          notice_arr=[];
+
+           $.each(notices.data,function(i,notice)
+           {
+            notice_arr.push(notice);
+           })
+           console.log(notice_arr);
+            for (var i = 0; i < notice_arr.length; i++) {
+
+
+              var description=notice_arr[i].data.full_desc;
+              var brief_desc = description.substr(0,300);
+              
+            $notices.append('<li data-id='+i+' class="open-Dialog" data-toggle="modal" data-target="#myModal"><img id ="img_pin" src="pin.png"></img><h2>'+notice_arr[i].data.title+'<br></h2><p>'+brief_desc+'....</p><br><p>Category : '+notice_arr[i].category+'</p><p>Posted Date : '+notice_arr[i].data.creation_date+'</p></li>');
+            }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      });
+      
+    });
+
+ // -----------------------userprofile function starts---------------------------------------
+
+ $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+
+    var user_id =getCookie('id');
+
+console.log(user_id);
+    $.ajax({
+            type:'POST',
+            url: "http://localhost:8085/user_details",
+            data:{
+              user_id:user_id
+            },
+           success: function(details){
+           console.log(details);
+           
+           $("#name").html(details[0].user_name);
+           $("#user_name").html(details[0].user_name);
+           $("#email").html(details[0].email);
+           $("#college").html(details[0].college);
+           $("#unique").html(details[0].unique_no);
+           $("#category").html(details[0].category);
+           $("#password").html(details[0].password);
+
+         
+           }
+         });   
+        });
+ // -----------------------userprofile function ends---------------------------------------
+
+// ------------------------------------------hamburger function code starts---------------------------------
+
+var active = true;
+
+function sidenav_toggle(){
+  
+
+  if(!active){
+    document.getElementById("mySidenav").style.width = "220px";
+    document.getElementById("main").style.marginLeft = "220px";
+    // document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+    active = true;
+  }else{
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
+    // document.body.style.backgroundColor = "white";
+    active = false;
+  }
+}
+
+// ------------------------------------------hamburger function code stops---------------------------------
+
+
+
+</script>
+
+
+<style type="text/css">
+body {
+  padding-top: 70px;
+    background-color: #f5f5f5 !important;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #fff;
+}
+
+.dropdown-user:hover {
+    cursor: pointer;
+}*/
+
+.table-user-information  tbody  tr {
+    border-top: 1px solid rgb(221, 221, 221);
+}
+
+.table-user-information > tbody > tr:first-child {
+    border-top: 0;
+}
+
+
+.table-user-information > tbody > tr > td {
+    border-top: 0;
+}
+
+   .navbar-brand {
+        text-shadow: 2px 2px #f2dede;
+    float: left;
+    color: #555 !important;
+    font-family: fantasy;
+    letter-spacing: 3px;
+    padding: 15px 22px;
+    font-size: 28px;
+    line-height: 25px;
+
+}
+.navbar-inverse {
+    box-shadow: 7px 6px 4px rgba(0,0,0,.5);
+    background-color: #fcf8e3;;
+    border-color: #080808;
+    }
+
+.navbar {
+    height: 65px;
+    padding: 5px;
+    border-radius: 0px;
+    }
+.navbar-form .input-group {
+    display: inline-table;
+    width: 400%;
+    vertical-align: middle;
+  }
+ 
+
+.glyphy
+{
+      top: 16px;
+    font-size: 23px;
+    color: #333;
+}
+  #div ul li
+  {
+    position: relative;
+
+  }
+
+ 
+
+#date,#category{
+        font-weight: bolder;
+    font-style: italic;
+    color: #555;
+    margin: 0 0 10px;
+}
+.dropdown-menu {
+    position: absolute;
+    top: 135%;
+    left: -133px;
+}
+
+
+#sidebarCollapse {
+    background-color: #fcf8e3;
+    display: inline-block;
+    float: left;
+    color: black;
+    margin-right: 0;
+}
+
+.sidenav {
+    height: 100%;
+    width: 220px;
+    position: fixed;
+    z-index: 1;
+    top: 20px;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+    font-size: 22px;
+    background-color: #222
+}
+
+.sidenav .closebtn {
+ /*   position: absolute;
+    top: 0;
+    right: 25px;*/
+    font-size: 36px;
+    margin-left: 50px;
+}
+div#main {
+    margin-left: 220px;
+}
+
+#userprofile_container{
+  
+  margin-top: 80px;
+}
+#login_user
+    {
+        cursor: pointer;
+               width: 45px;
+  
+    color: #fcf8e3;
+    background: #555555;
+    font-size: 32px;
+    margin-top: 5px;
+    margin-left: -10px;
+    padding-left: 14px !important;
+    padding: -8px 40px;
+    border-radius: 50%;
+    }
+    .navbar-inverse .navbar-toggle .icon-bar {
+    background-color: #000;
+}
+.navbar-inverse .navbar-toggle{
+  border-color: transparent;
+}
+</style>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-4">
+    <div class="navbar-header">
+      <button class="navbar-toggle" id="sidebarCollapse" data-toggle="collapse" data-target="#home-navbar-collapse" onclick="sidenav_toggle()">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href='../../index.html'>ONLINE NOTICE BOARD</a>
+    </div>
+    </div>
+  <div class="col-sm-6">
+    <form class="navbar-left">
+      <div class="input-group input-lg">
+        <input type="text" class="form-control" onkeyup="mysearch()" placeholder="Search" name="search" id="searchInput">
+        <div class="input-group-btn">
+          <button class="btn btn-default" type="button" onclick="mysearch()">
+            <i class="glyphicon glyphicon-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+    </div>
+     <div class="col-sm-2">
+      <div class="row">
+      <div class="col-sm-3"></div>
+    <div class="col-sm-3">
+     <div class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-toggle="tooltip" data-placement="top" title="Sort">
+          <span class="glyphicon glyphicon-sort-by-attributes-alt glyphy"></span>
+        </a>
+    <ul class="dropdown-menu">
+      <li><a onclick="sort_alpha()">Alphabetical</a></li>
+      <li><a onclick="sort_date()">Date</a></li>
+    </ul>
+  </div>
+</div>
+ <div class="col-sm-3">
+  <div class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-toggle="tooltip" data-placement="top" title="Filter">
+          <span class=" glyphicon glyphicon-filter glyphy"></span>
+        </a>
+    <ul class="dropdown-menu" id="filters">
+    <div style="margin-left: 20px;">
+    <div class="checkbox">
+      <label><input type="checkbox" value="1">Event</label>
+    </div>
+    <div class="checkbox">
+      <label><input type="checkbox" value="2">Important</label>
+    </div>
+    <div class="checkbox">
+      <label><input type="checkbox" value="3">Sports</label>
+    </div>
+
+     <div class="checkbox">
+      <label><input type="checkbox" value="4">Placement</label>
+    </div>
+
+     <div class="checkbox">
+      <label><input type="checkbox" value="5">Examination</label>
+    </div>
+
+     <div class="checkbox">
+      <label><input type="checkbox" value="6">General</label>
+    </div>
+
+    <button type="button" id="applyBtn" class="btn btn-xs">Apply</button>
+    <button type="button" class="btn btn-xs">Cancel</button>
+  </div>
+    </ul>
+  </div>
+
+   
+        </div>
+
+        <div class="col-sm-3">
+   <div id='login_user' class='dropdown-toggle' data-toggle='dropdown'></div><ul class='dropdown-menu' role='menu' style='position:absolute;left:-122px;top:100%'><li style='font-style: italic;font-weight: bolder;margin: 5px 18px' id="userName"></li><li><a href='../../Pages/Profile/userprofile.html'><span class='fa fa-user'></span>   My Profile</a></li><li><a href='../../Pages/Insert/insert.html'><span class='fa fa-gear'></span>  Dashboard</a></li><li class='divider'></li><li><a onclick='clear_cookie()'><span class='fa fa-power-off'></span>  Logout</a></li></ul>
+</div>
+        </div>
+        </div>
+    
+  </div>
+  </div>
+</nav>
+
+<div role="Container_for_content_other_than_top_nav_bar">
+  <div>
+    <div id="mySidenav" class="sidenav">
+      <!--a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a-->
+      <a href="../Home/home.html" >Home</a>
+        <a style="color:white" href="../Profile/userprofile.html">Profile</a>
+        <a href="../Insert/insert.html">My Notices</a>
+        <a href="../Unapprove/unapprove.html">Unapproved</a>
+        <a href="../Reject/reject.html">Spam</a>
+        <a href="../Aboutus/about_us.html">About us</a>
+        <a href="../Help/help.html">Help</a>
+    </div>
+  </div>
+  <div id="main">
+      <div class="row" id="userprofile_container">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 " >
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <h3 class="panel-title" id="user_name"></h3>
+              </div>
+              <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="prof.png" class="img-circle img-responsive"> </div>
+                    <div class=" col-md-9 col-lg-9 "> 
+                      <table class="table table-user-information">
+                          <tbody>
+                            <tr>
+                               <td>Username</td>
+                               <td id="name"></td>
+                            </tr>
+
+                            <tr>
+                                <td>Email</td>
+                                <td id="email"></td>
+                            </tr>
+                            <tr>
+                                <td>College</td>
+                                <td id="college"></td>
+                            </tr>
+                             
+                            <tr>
+                                <td>Category</td>
+                                <td id="category"></td>
+                            </tr>
+                            <tr>
+                                <td>Unique ID.</td>
+                                <td id="unique"></td>
+                            </tr>
+                              
+                            <tr>
+                              <td>Password</td>
+                              <td id="password"></td>   
+                            </tr>
+                          </tbody>
+                        </table>
+                    </div>
+                </div>  
+              </div>  <!--  ----------------panel body ends-------------- -->
+               <!--  ----------------panel footer ends-------------- -->
+          </div>
+          </div>
+        </div>    <!-- -------------------row div ends--------------- -->
+
+  </div>  <!-- ----------------------main ends----------------------------- -->
+
+</div >    <!--  -----------------------Container_for_content_other_than_top_nav_bar ends------------------------ -->
+
+</body>
+</html>
+

@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style type="text/css">
+	body{
+    background-color:#f1f1f1;
+    padding: 0px;
+    margin: 0px;
+    font-family: monospace;
+}
+
+
+
+
+/*
+------------------------------------------top nav bar styling ends---------------------------------*/
+
+
+   
+.navbar-inverse {
+    box-shadow: 7px 6px 4px rgba(0,0,0,.5);
+    background-color: #fcf8e3;;
+    border-color: #080808;
+    }
+
+.navbar {
+    height: 65px;
+    padding: 5px;
+    border-radius: 0px;
+    }
+.navbar-form .input-group {
+    display: inline-table;
+    width: 400%;
+    vertical-align: middle;
+  }
+    .navbar-brand {
+            text-shadow: 2px 2px #f2dede;
+    float: left;
+    color: #555 !important;
+    font-family: fantasy;
+    letter-spacing: 3px;
+    padding: 15px 22px;
+    font-size: 28px;
+    line-height: 25px;
+
+}
+ 
+.glyphy
+{
+      top: 16px;
+    font-size: 23px;
+    color: #333;
+}
+  #div ul li
+  {
+    position: relative;
+
+  }
+
+  #name {
+    font-size: 17px;
+    float: right;
+    color: black;
+    font-style: italic;
+    margin: 0 0 10px;
+}
+
+#date,#category{
+        font-weight: bolder;
+    font-style: italic;
+    color: #555;
+    margin: 0 0 10px;
+}
+.dropdown-menu {
+    position: absolute;
+    top: 135%;
+    left: -133px;
+}
+/*
+------------------------------------------top nav bar styling ends---------------------------------*/
+
+
+/*
+------------------------------------------side nav bar styling starts---------------------------------*/
+
+#sidebarCollapse {
+    background-color: #fcf8e3;
+    display: inline-block;
+    float: left;
+    color: black;
+    margin-right: 0
+}
+
+.sidenav {
+    height: 100%;
+    width: 220px;
+    position: fixed;
+    z-index: 1;
+    top: 20px;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+    font-size: 22px;
+    background-color: #222
+}
+
+.sidenav .closebtn {
+ /*   position: absolute;
+    top: 0;
+    right: 25px;*/
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+#userprofile_container{
+  
+  margin-top: 120px;
+}
+/*
+------------------------------------------side nav bar styling ends---------------------------------*/
+#main{
+	position: absolute;
+	top:6%;
+	
+	width: 100%;
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+	transition: left .5s;
+	transition:width 2s; 
+}
+
+#Container_for_content_other_than_top_nav_bar{
+	position: relative;
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+}
+
+div#main {
+    margin-left: 220px;
+}
+/*
+------------------------------------------about us styling starts---------------------------------*/
+.section-ourTeam{
+	position: absolute;
+	top:0px;
+	width: 100%;
+	transition: left .5s;
+	margin-bottom: 0px;
+
+}
+.section-dangers .section2 p{
+    background-color: #B37D8A;
+    color:#fff;
+}
+.section-dangers .section2 h1{
+    border-bottom:2px solid #B37D8A;
+}
+
+.section-dangers{
+    border-top:6px solid #B37D8A;
+}
+.section-dangers .section1 img{
+    border:5px solid #B37D8A;
+    padding:5px;
+}
+.section-dangers .section2 h1{
+    border-bottom:2px solid #B37D8A;
+}
+
+.ourTeam-hedding{
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('unity.jpg');
+    height:200px;
+    width:100%;
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+    background: linear-gradient(rgba(0,0,0,.10)); 
+}
+
+.ourTeam-box{
+    border-top: 6px solid #B37D8A;
+    background-color: #FFFFFF;
+    height: 100%;
+}
+.ourTeam-boxe{
+    border-top: 6px solid #white;
+    background-color: #FFFFFF;
+    height: 100%;
+}
+
+.section1{
+    padding: 30px 0px 0px 0px;
+}
+.section1 img{
+    border:5px solid #90DFAA;
+    padding:5px;
+    border-radius:50%;
+    height:170px;
+    width: 170px;
+}
+.section2 h1{
+    font-size:20px;
+    color:#C1C1C1;
+    margin:0px;
+    border-bottom:2px solid #90DFAA;
+    display: inline-block;
+    padding: 10px 0px;
+}
+.section2 p{
+    background-color:#90DFAA;
+    display: inline-block;
+    font-weight: bold;
+    color:#fff;
+    padding: 5px 15px;
+    border-radius: 3px;
+    margin-top: -20px;    
+}
+.section2 span{
+    color:#979597;
+}
+.section2 label{
+    background-color: #5DDDD3;
+    padding: 8px 10px 8px 10px;
+    color:#fff;
+    font-weight: normal;
+    margin: 30px 0px 35px 0px;
+    border-radius: 2px;
+}
+.section3 p{
+    padding: 10px 15px 0px 15px;
+    font-size:12px;
+    color:#c3c9c9;
+}
+.section4{
+    padding:10px 0px 50px 0px;
+}
+.section4 i{
+    color:#fff;
+    padding:3px;
+    border-radius: 2px; 
+    font-size: 12px;
+    background-color: #5DDDD3;
+    cursor: pointer;
+}
+.section-info{
+    border-top:6px solid  #FD8469;
+}
+.section-danger{
+    border-top:6px solid #9DDDD3;
+}
+.section-info .section1 img{
+    border:5px solid  #FD8469;
+    padding:5px;
+}
+.section-info .section2 p{
+    background-color: #FD8469;
+    color:#fff;
+}
+.section-danger .section2 p{
+    background-color: #9DDDD3;
+    color:#fff;
+}
+.section-danger .section1 img{
+    border:5px solid #9DDDD3;
+    padding:5px;
+}
+.section-info .section4 i{
+    background-color: #90DFAA;  
+}
+.section-danger .section4 i{
+    background-color: #FD8469;  
+}
+.section-info .section2 h1{
+    border-bottom:2px solid #FD8469;
+}
+.section-danger .section2 h1{
+    border-bottom:2px solid #9DDDD3;
+}
+#login_user
+    {
+        cursor: pointer;
+               width: 45px;
+  
+    color: #fcf8e3;
+    background: #555555;
+    font-size: 32px;
+    margin-top: 5px;
+    margin-left: -10px;
+    padding-left: 14px !important;
+    border-radius: 50%;
+    }
+      .navbar-inverse .navbar-toggle .icon-bar {
+    background-color: #000;
+}
+.navbar-inverse .navbar-toggle{
+  border-color: transparent;
+}
+
+</style>
+<script type="text/javascript">
+	
+
+
+ var active = true;
+function sidenav_toggle(){
+  
+
+  if(!active){
+    document.getElementById("mySidenav").style.width = "220px";
+    document.getElementById("main").style.marginLeft = "220px";
+    // document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+    active = true;
+  }else{
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
+    // document.body.style.backgroundColor = "white";
+    active = false;
+  }
+}
+function getCookie(name) {
+      var value = "; " + document.cookie;
+      var parts = value.split("; " + name + "=");
+      if (parts.length == 2) return parts.pop().split(";").shift();
+    }
+
+ $(document).ready(function() {
+
+          if(getCookie("id")==null || getCookie("id")=="")
+        {
+           window.location.href="../../index.html";
+          }
+
+          $("#login_user").html(getCookie("fletter"));
+           $("#userName").html(getCookie("name"));
+        });
+
+ function clear_cookie()
+    {
+         document.cookie = "id=;path=/;";
+          document.cookie = "name=;path=/;";
+           document.cookie = "fletter=;path=/;";
+   
+        location.reload(true);
+    }
+
+</script>
+
+
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-4">
+    <div class="navbar-header">
+      <button class="navbar-toggle" id="sidebarCollapse" data-toggle="collapse" data-target="#home-navbar-collapse" onclick="sidenav_toggle()">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href='../../index.html'>ONLINE NOTICE BOARD</a>
+    </div>
+    </div>
+  <div class="col-sm-6">
+    <form class="navbar-left">
+      <div class="input-group input-lg">
+        <input type="text" class="form-control" onkeyup="mysearch()" placeholder="Search" name="search" id="searchInput">
+        <div class="input-group-btn">
+          <button class="btn btn-default" type="button" onclick="mysearch()">
+            <i class="glyphicon glyphicon-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+    </div>
+     <div class="col-sm-2">
+      <div class="row">
+      <div class="col-sm-3"></div>
+    <div class="col-sm-3">
+     <div class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-toggle="tooltip" data-placement="top" title="Sort">
+          <span class="glyphicon glyphicon-sort-by-attributes-alt glyphy"></span>
+        </a>
+    <ul class="dropdown-menu">
+      <li><a onclick="sort_alpha()">Alphabetical</a></li>
+      <li><a onclick="sort_date()">Date</a></li>
+    </ul>
+  </div>
+</div>
+ <div class="col-sm-3">
+  <div class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-toggle="tooltip" data-placement="top" title="Filter">
+          <span class=" glyphicon glyphicon-filter glyphy"></span>
+        </a>
+    <ul class="dropdown-menu" id="filters">
+    <div style="margin-left: 20px;">
+    <div class="checkbox">
+      <label><input type="checkbox" value="1">Event</label>
+    </div>
+    <div class="checkbox">
+      <label><input type="checkbox" value="2">Important</label>
+    </div>
+    <div class="checkbox">
+      <label><input type="checkbox" value="3">Sports</label>
+    </div>
+
+     <div class="checkbox">
+      <label><input type="checkbox" value="4">Placement</label>
+    </div>
+
+     <div class="checkbox">
+      <label><input type="checkbox" value="5">Examination</label>
+    </div>
+
+     <div class="checkbox">
+      <label><input type="checkbox" value="6">General</label>
+    </div>
+
+    <button type="button" id="applyBtn" class="btn btn-xs">Apply</button>
+    <button type="button" class="btn btn-xs">Cancel</button>
+  </div>
+    </ul>
+  </div>
+
+   
+        </div>
+
+         <div class="col-sm-3">
+         <div id='login_user' class='dropdown-toggle' data-toggle='dropdown'></div><ul class='dropdown-menu' role='menu' style='position:absolute;left:-122px;top:100%'><li style='font-style: italic;font-weight: bolder;margin: 5px 18px' id="userName"></li><li><a href='../../Pages/Profile/userprofile.html'><span class='fa fa-user'></span>   My Profile</a></li><li><a href='../../Pages/Insert/insert.html'><span class='fa fa-gear'></span>  Dashboard</a></li><li class='divider'></li><li><a onclick='clear_cookie()'><span class='fa fa-power-off'></span>  Logout</a></li></ul>
+
+</div>
+        </div>
+        </div>
+    
+  </div>
+  </div>
+</nav>
+
+<div role="Container_for_content_other_than_top_nav_bar">
+  <!-------------------------------------------side_nav_bar_begins-------------------------------------------------------->
+  <div>
+    <div id="mySidenav" class="sidenav">
+      <!--a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a-->
+      <a href="../Home/home.html" >Home</a>
+       <a href="../Profile/userprofile.html">Profile</a>
+        <a href="../Insert/insert.html">My Notices</a>
+         <a href="../Unapprove/unapprove.html">Unapproved</a>
+        <a href="../Reject/reject.html">Spam</a>
+        <a style="color:white" href="about_us.html">About us</a>
+        <a href="../Help/help.html">Help</a>
+    </div>
+  </div>
+  <div id="main">
+<div class="container section-ourTeam" id="section-ourTeam">
+	<br><div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12 ourTeam-hedding">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+			<div class="row section-success ourTeam-box text-center">
+				<div class="col-md-12 section1">
+					<img src="prof.png">
+				</div>
+				<div class="col-md-12 section2">
+					<p>Dhruv Kapoor</p><br>
+					<h1>B.Tech CSE 3-YEAR</h1><br>
+          <h1 style="border-bottom: white">Roll No</h1><br>
+          <h1 style="border-bottom: white">1620902715</h1>
+				</div>
+			
+				
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+			<div class="row section-info ourTeam-boxe text-center">
+				<div class="col-md-12 section1">
+					<img src="prof.png">
+				</div>
+				<div class="col-md-12 section2">
+					<p>Gaurav Kumar</p><br>
+					<h1>B.Tech CSE 3-YEAR</h1><br>
+          <h1 style="border-bottom: white">Roll No</h1><br>
+          <h1 style="border-bottom: white">01820902715</h1>
+				</div>
+				
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+			<div class="row section-dangers ourTeam-box text-center">
+				<div class="col-md-12 section1">
+					<img src="prof.png">
+				</div>
+				<div class="col-md-12 section2">
+					<p>Priyanshi Bhardwaj</p><br>
+					<h1>B.Tech CSE 3-YEAR</h1><br>
+        <h1 style="border-bottom: white">Roll No</h1><br>
+          <h1 style="border-bottom: white">00420907216</h1>
+				</div>
+			
+				
+			</div>
+		</div>
+					<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+			<div class="row section-danger ourTeam-box text-center">
+				<div class="col-md-12 section1">
+					<img src="prof.png">
+				</div>
+				<div class="col-md-12 section2">
+					<p>Uzma Ahmed</p><br>
+					<h1>B.Tech CSE 3-YEAR</h1><br>
+         <h1 style="border-bottom: white">Roll No</h1><br>
+          <h1 style="border-bottom: white">00520907216</h1>
+				</div>
+			
+
+	</div>
+</div>
+
+  </div>  
+
+</div >    
+
+
+
+
+</body>
+</html>
